@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE resource-adaptor-type-jar PUBLIC "-//Sun Microsystems, Inc.//DTD JAIN SLEE Resource Adaptor Type 1.1//EN" "http://java.sun.jslee/dtd/slee-resource-adaptor-type-jar_1_1.dtd">
+
+<resource-adaptor-type-jar>
+
+  <resource-adaptor-type>
+
+    <description>EnOceanRA-Type</description>
+
+    <resource-adaptor-type-name>EnOceanRA-Type</resource-adaptor-type-name>
+    <resource-adaptor-type-vendor>EnOceanFH</resource-adaptor-type-vendor>
+    <resource-adaptor-type-version>1.0</resource-adaptor-type-version>
+
+    <resource-adaptor-type-classes>
+
+      <activity-type>
+        <activity-type-name>
+          de.EnOcean.jslee.ratype.ClientConnectionActivity
+        </activity-type-name>
+      </activity-type>
+      
+      <activity-type>
+        <activity-type-name>
+          de.EnOcean.jslee.ratype.ServerConnectionActivity
+        </activity-type-name>
+      </activity-type>
+
+     <activity-type>
+        <activity-type-name>
+          de.EnOcean.jslee.ratype.GatewayConnectionActivity
+        </activity-type-name>
+      </activity-type>
+
+    <activity-type>
+        <activity-type-name>
+          de.EnOcean.jslee.ratype.EnOceanConnectionActivity
+        </activity-type-name>
+      </activity-type>
+    
+
+
+
+      <activity-context-interface-factory-interface>
+        <activity-context-interface-factory-interface-name>
+          de.EnOcean.jslee.ratype.TcpActivityContextInterfaceFactory
+        </activity-context-interface-factory-interface-name>
+      </activity-context-interface-factory-interface>
+      
+      <!--resource-adaptor-interface>
+        <resource-adaptor-interface-name>
+          de.EnOcean.jslee.ratype.ConnectionProvider
+        </resource-adaptor-interface-name>
+      </resource-adaptor-interface>
+      
+    </resource-adaptor-type-classes-->
+    
+	 <resource-adaptor-interface>
+        <resource-adaptor-interface-name>
+          de.EnOcean.jslee.ratype.EnOceanProvider
+        </resource-adaptor-interface-name>
+     </resource-adaptor-interface>
+      
+    </resource-adaptor-type-classes>
+
+    <event-type-ref>
+      <event-type-name>MessageEvent_REQUEST</event-type-name>
+      <event-type-vendor>EnOceanFH</event-type-vendor>
+      <event-type-version>1.0</event-type-version>
+    </event-type-ref>
+
+    <event-type-ref>
+      <event-type-name>MessageEvent_RESPONSE</event-type-name>
+      <event-type-vendor>EnOceanFH</event-type-vendor>
+      <event-type-version>1.0</event-type-version>
+    </event-type-ref>
+    
+    <event-type-ref>
+      <event-type-name>EnOceanEvent</event-type-name>
+      <event-type-vendor>de.EnOcean.jslee.event</event-type-vendor>
+      <event-type-version>1.0</event-type-version>
+    </event-type-ref>
+    
+  <!--     <event-type-ref>
+      <event-type-name>MessageEvent_ConnectionToGateway</event-type-name>
+      <event-type-vendor>EnOceanFH</event-type-vendor>
+      <event-type-version>1.0</event-type-version>
+    </event-type-ref> -->
+
+  </resource-adaptor-type> 
+
+</resource-adaptor-type-jar>
+

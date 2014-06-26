@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project name="Release_build" default="deploy-all">
+
+	<property name="home" value="${ant.file.Release_build}/../" />
+	
+	<!-- configure these properties for building -->
+	<property name="sbb.path" value="de/fhffm/EnOcean/service"/>
+	<!--<property name="sbb.path" value="lib/Msml_Liabrary_Media.jar"/>-->
+	<property name="jarfile.name" value="EnOcean-sbb"/>
+	<property name ="jarfile.namelib" value= "library-jar" /> 
+	<property name="service.id" value="ServiceID[name=EnOcean_Service,vendor=de.fhffm.EnOcean.service,version=1.0]"/>
+	
+	<property name="du.filenameprefix" value="${jarfile.name}-DU"/>
+	<property name="du.filename" value="${du.filenameprefix}.jar" />
+
+	<!-- configure these properties for deployment -->
+	<property environment="system" />
+	<property name="jboss.home" value="${system.JBOSS_HOME}" />
+	<property name="jboss.config" value="default" />
+	<property name="jnpHost" value="192.168.0.240" />
+	<property name="jnpPort" value="1099" />
+	
+	<!-- Properties for building the sources -->
+	<property name="src.dir" value=" " /> <!--"src" /-->
+	<property name="lib" value="lib" />
+	<property name="build.classes.dir" value="build/classes" />
+	<property name="dist.dir" value="dist" />
+	
+	<!-- Paths for building the sources -->
+	<path id="duPath">
+		<pathelement location="" />
+	</path>
+	
+	<path id="compile.class.path">
+		<fileset dir="${lib}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="init">
+		<mkdir dir="${build.classes.dir}" />
+		<mkdir dir="${dist.dir}" />
+	</target>
+	
+	<target name="javacompile" depends="init" description="Compile">
+		<javac debug="true" deprecation="true" destdir="${build.classes.dir}" includes="${sbb.path}/*.java" srcdir="${src.dir}">
+			<classpath refid="compile.class.path" />
+		</javac>
+	</target>
+	
+
+	<target name="clean">
+		<delete dir="${build.classes.dir}" />
+		<delete dir="${dist.dir}" />
+		<delete file="${dist.dir}/*.jar" />
+	</target>
+	
+	
+	<target name="package-sbb" depends="javacompile">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/sbb-unit" />
+		<mkdir dir="${dist.dir}/sbb-unit/META-INF" />
+		<copy todir="${dist.dir}/sbb-unit/">
+			<fileset dir="${build.classes.dir}">
+				<include name="${sbb.path}/*" />
+			</fileset>
+		</copy>
+		<copy todir="${dist.dir}/sbb-unit/META-INF">
+			<fileset dir="descriptors">
+				<include name="sbb-jar.xml" />
+			</fileset>
+		</copy>
+		<jar basedir="${dist.dir}/sbb-unit/" compress="true" jarfile="${dist.dir}/${jarfile.name}.jar">
+		</jar>
+		<!-- <delete dir="${dist.dir}/sbb-unit" /> -->
+	</target>
+	
+	<!--<target name="build-library" depends="package-sbb">
+			<mkdir dir="library/META-INF" />
+	        <mkdir dir="library/library_media"/>      
+			<copy todir="library/META-INF" overwrite="true" file="descriptors/library-jar.xml" />
+			********//<copy todir="library/library_media" overwrite="true" file="Msml_liabrary_Media.jar" />
+			
+			<copy todir="library/META-INF">
+				<fileset dir="descriptors">
+					<include name="library-jar.xml" />
+			   </fileset>
+			</copy>
+			
+			<copy todir="library/library_media">
+			<fileset dir="lib">
+					<include name = "Msml_Liabrary_Media.jar"/>
+			</fileset>
+			</copy>
+			
+			<jar basedir="library" compress="true" jarfile="library.jar">
+			</jar>
+			<delete dir="library" />
+			<delete file="${lib.dir}/${jarfile.namelib}.jar" />
+			<copy todir="" overwrite="true" file="library.jar" /> 
+		</target> -->
+	
+	<target name="build-du" depends="package-sbb">
+		<mkdir dir="${dist.dir}" />
+		<mkdir dir="${dist.dir}/sbb-service" />
+		<mkdir dir="${dist.dir}/sbb-service/META-INF" />
+		<mkdir dir="${dist.dir}/sbb-service/library" />
+		<copy todir="${dist.dir}/sbb-service/" overwrite="true" file="${dist.dir}/${jarfile.name}.jar" />
+		<copy todir="${dist.dir}/sbb-service/" overwrite="true" file="descriptors/service.xml" />
+		
+		<!--<copy todir="${dist.dir}/sbb-service/library" overwrite="true" file="library.jar" /> -->
+		<copy todir="${dist.dir}/sbb-service/META-INF">
+			<fileset dir="descriptors">
+				<include name="deployable-unit.xml" />
+				
+			</fileset>
+		</copy>
+		<jar basedir="${dist.dir}/sbb-service/" compress="true" jarfile="${dist.dir}/${du.filenameprefix}.jar">
+		</jar>
+		<delete dir="${dist.dir}/sbb-service" />
+		<delete file="${dist.dir}/${jarfile.name}.jar" />
+		<copy todir="" overwrite="true" file="${dist.dir}/${du.filenameprefix}.jar" /> 
+	</target>
+	
+	<target name="deploy-all-jmx" depends="build-du">
+		<ant antfile="du-management.xml" target="deploy-jmx" inheritAll="false">
+			<property name="jboss.home" value="${jboss.home}" />
+			<property name="node" value="${jboss.config}" />
+			<property name="jnpHost" value="${jnpHost}" />
+			<property name="jnpPort" value="${jnpPort}" />
+			<property name="du.filename" value="${du.filename}" />
+			<property name="service.id" value="${service.id}" />
+		</ant>
+	</target>
+
+	<target name="undeploy-all-jmx">
+		<ant antfile="du-management.xml" target="undeploy-jmx" inheritAll="false">
+			<property name="jboss.home" value="${jboss.home}" />
+			<property name="node" value="${jboss.config}" />
+			<property name="jnpHost" value="${jnpHost}" />
+			<property name="jnpPort" value="${jnpPort}" />
+			<property name="du.filename" value="${du.filename}" />
+			<property name="service.id" value="${service.id}" />
+		</ant>
+	</target>
+
+	<target name="deploy-all" depends="build-du">
+		<ant antfile="du-management.xml" target="deploy" inheritAll="false">
+			<property name="jboss.home" value="${jboss.home}" />
+			<property name="node" value="${jboss.config}" />
+			<property name="du.filename" value="${du.filename}" />
+			<property name="service.id" value="${service.id}" />
+		</ant>
+	</target>
+
+	<target name="undeploy-all">
+		<ant antfile="du-management.xml" target="undeploy" inheritAll="false">
+			<property name="jboss.home" value="${jboss.home}" />
+			<property name="node" value="${jboss.config}" />
+			<property name="du.filename" value="${du.filename}" />
+			<property name="service.id" value="${service.id}" />
+		</ant>
+	</target>	
+
+</project>

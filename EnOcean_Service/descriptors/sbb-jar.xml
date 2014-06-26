@@ -1,0 +1,190 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE sbb-jar PUBLIC "-//Sun Microsystems, Inc.//DTD JAIN SLEE SBB 1.1//EN" "http://java.sun.com/dtd/slee-sbb-jar_1_1.dtd">
+
+<sbb-jar>
+    <sbb id="callsbb">
+        <description>EnOcean-Service Service with CMS3000</description>
+        <sbb-name>EnOcean_ServiceSbb</sbb-name>
+        <sbb-vendor>de.fhffm.service.enocean_service</sbb-vendor>
+        <sbb-version>1.0</sbb-version>
+        <sbb-alias>EnOcean_ServiceSbb</sbb-alias>
+        
+  <library-ref>
+          <library-name>Msml_Library_Media</library-name>
+          <library-vendor>org.example.first</library-vendor>
+          <library-version>1.0</library-version>
+        </library-ref>
+        
+        
+        
+        <sbb-classes>
+            <sbb-abstract-class>
+                <sbb-abstract-class-name>
+                    de.fhffm.service.enocean_service.EnOcean_ServiceSbb
+                </sbb-abstract-class-name>
+                <cmp-field>
+                <description>Stores if an ACK is expected caused by a rejection</description>
+                <cmp-field-name>ackExpectedforRejection</cmp-field-name>
+                </cmp-field>
+                <cmp-field>
+                <description>Stores if an ACK is expected</description>
+                <cmp-field-name>ackExpectedforCall</cmp-field-name>
+                </cmp-field>
+                </sbb-abstract-class>      
+			<sbb-activity-context-interface>
+				<description>Holds all values which have to be persistent for the whole service</description>
+				<sbb-activity-context-interface-name>de.fhffm.service.enocean_service.ServiceACIActivityContextInterface</sbb-activity-context-interface-name>
+			</sbb-activity-context-interface>
+                                         
+        </sbb-classes>
+        
+        <event event-direction="Receive" initial-event="True">
+			<event-name>StartService</event-name>
+			<event-type-ref>
+				<event-type-name>
+					javax.slee.serviceactivity.ServiceStartedEvent
+				</event-type-name>
+				<event-type-vendor>javax.slee</event-type-vendor>
+				<event-type-version>1.1</event-type-version>
+			</event-type-ref>
+			<initial-event-select variable="ActivityContext" />
+		</event>         
+    
+          <event event-direction="Receive" initial-event="True">
+            <event-name>Invite</event-name>
+            <event-type-ref>
+                <event-type-name>javax.sip.message.Request.INVITE</event-type-name>
+                <event-type-vendor>net.java.slee</event-type-vendor>
+                <event-type-version>1.2</event-type-version>
+            </event-type-ref>
+            <initial-event-select variable="ActivityContext"/>
+        </event>       
+ 		
+ 		<event event-direction="Receive" initial-event="False">
+            <event-name>Success</event-name>
+            <event-type-ref>
+                <event-type-name>javax.sip.message.Response.SUCCESS</event-type-name>
+                <event-type-vendor>net.java.slee</event-type-vendor>
+                <event-type-version>1.2</event-type-version>
+            </event-type-ref>
+        </event>         
+		
+		<event event-direction="Receive" initial-event="False">
+            <event-name>Ack</event-name>
+            <event-type-ref>
+                <event-type-name>javax.sip.Dialog.ACK</event-type-name>
+                <event-type-vendor>net.java.slee</event-type-vendor>
+                <event-type-version>1.2</event-type-version>
+            </event-type-ref>
+        </event> 
+   
+       <event event-direction="Receive" initial-event="False">
+            <event-name>Bye</event-name>
+            <event-type-ref>
+                <event-type-name>javax.sip.Dialog.BYE</event-type-name>
+                <event-type-vendor>net.java.slee</event-type-vendor>
+                <event-type-version>1.2</event-type-version>
+            </event-type-ref>
+        </event> 
+		
+		
+		
+		    <event event-direction="Receive" initial-event="True">
+            <event-name>EnOceanEvent</event-name>
+            <event-type-ref>
+                <event-type-name>EnOceanEvent</event-type-name>
+                <event-type-vendor>de.EnOcean.jslee.event</event-type-vendor>
+                <event-type-version>1.0</event-type-version>
+            </event-type-ref>
+        </event> 
+        
+        
+		<event event-direction="Receive" initial-event="False">
+            <event-name>Info</event-name>
+            <event-type-ref>
+                <event-type-name>javax.sip.Dialog.INFO</event-type-name>
+                <event-type-vendor>net.java.slee</event-type-vendor>
+                <event-type-version>1.2</event-type-version>
+            </event-type-ref>
+        </event> 
+        
+        
+        
+<!--  		<event event-direction="Receive" initial-event="False">
+			<event-name>Cancel</event-name>
+			<event-type-ref>
+				<event-type-name>javax.sip.message.Request.CANCEL</event-type-name>
+				<event-type-vendor>net.java.slee</event-type-vendor>
+				<event-type-version>1.2</event-type-version>
+			</event-type-ref>
+		</event> -->
+ 	
+
+		<env-entry>
+    		<description>
+    			The IP address of the MediaServer 				
+    		</description>			
+    		<env-entry-name>MediaServerIPAddress</env-entry-name>
+    		<env-entry-type>java.lang.String</env-entry-type>
+    		<env-entry-value>192.168.0.186</env-entry-value>
+    	</env-entry>
+    	<env-entry>
+    		<description>
+    			The IP address of the CallServer 				
+    		</description>			
+    		<env-entry-name>CallServerIPAddress</env-entry-name>
+    		<env-entry-type>java.lang.String</env-entry-type>
+    		<env-entry-value>192.168.0.12</env-entry-value>
+    	</env-entry>
+	   
+
+	   
+	 
+	   
+	   
+        <resource-adaptor-type-binding>
+            <resource-adaptor-type-ref>
+                <resource-adaptor-type-name>
+                JAIN SIP
+                </resource-adaptor-type-name>
+                <resource-adaptor-type-vendor>
+                javax.sip
+                </resource-adaptor-type-vendor>
+                <resource-adaptor-type-version>
+                1.2
+                </resource-adaptor-type-version>
+            </resource-adaptor-type-ref>
+            <activity-context-interface-factory-name>
+            slee/resources/jainsip/1.2/acifactory
+            </activity-context-interface-factory-name>
+            <resource-adaptor-entity-binding>
+                <resource-adaptor-object-name>
+                slee/resources/jainsip/1.2/provider
+                </resource-adaptor-object-name>
+                <resource-adaptor-entity-link>
+                SipRA
+                </resource-adaptor-entity-link>
+            </resource-adaptor-entity-binding>
+        </resource-adaptor-type-binding>
+       
+       
+       
+        
+<resource-adaptor-type-binding>
+            <resource-adaptor-type-ref>
+                <resource-adaptor-type-name>EnOceanRA-Type</resource-adaptor-type-name>
+                <resource-adaptor-type-vendor>EnOceanFH</resource-adaptor-type-vendor>
+                <resource-adaptor-type-version>1.0</resource-adaptor-type-version>
+            </resource-adaptor-type-ref>
+           <activity-context-interface-factory-name>slee/resources/EnOceanRA/acifactory</activity-context-interface-factory-name>
+           <resource-adaptor-entity-binding>
+              <resource-adaptor-object-name>slee/resources/EnOceanRA/provider</resource-adaptor-object-name>
+              <resource-adaptor-entity-link>EnOceanRA</resource-adaptor-entity-link>
+           </resource-adaptor-entity-binding>
+        </resource-adaptor-type-binding>
+    </sbb>
+
+
+    
+</sbb-jar>

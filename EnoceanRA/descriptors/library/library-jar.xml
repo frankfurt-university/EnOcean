@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE library-jar PUBLIC 
+		"-//Sun Microsystems, Inc.//DTD JAIN SLEE Library 1.1//EN" 
+		"http://java.sun.com/dtd/slee-library-jar_1_1.dtd">
+
+<library-jar>
+	<library>
+		<library-name>jain-sip</library-name>
+		<library-vendor>javax.sip</library-vendor>
+		<library-version>1.2</library-version>
+
+		<jar>
+			<jar-name>jars/sip11-jain-sip-ha-2.2.0.FINAL.jar</jar-name>
+		</jar>
+		<jar>
+			<jar-name>jars/mobicents-jain-sip-ha-core-0.13.jar</jar-name>
+		</jar>
+		<jar>
+			<jar-name>jars/mobicents-jain-sip-ext-1.0.BETA1.jar</jar-name>
+		</jar>
+		<jar>
+			<jar-name>jars/mobicents-jain-sip-jboss5-0.13.jar</jar-name>
+		</jar>
+		<jar>
+			<jar-name>jars/jain-sip-api-1.2.jar</jar-name>
+		</jar>
+		<jar>
+			<jar-name>jars/jain-sip-ri-1.2.157.jar</jar-name>
+		</jar>
+		<jar>
+			<jar-name>jars/sip-balancer-jar-1.0.4.FINAL.jar</jar-name>
+		</jar>
+		 <jar>
+			<jar-name>jars/EnOceanAPI.jar</jar-name>
+		</jar>
+	</library>
+</library-jar>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/javax/slee/jain-slee/1.1/jain-slee-1.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/mobicents/servers/jainslee/api/jain-slee-11-ext/1.0.0.BETA2/jain-slee-11-ext-1.0.0.BETA2.jar"/>
+	<classpathentry kind="lib" path="/root/workspace/EnoceanRA2/lib/jain-slee-1.1.jar"/>
+	<classpathentry kind="lib" path="/root/workspace/EnoceanRA/lib/jain-slee-1.1.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
